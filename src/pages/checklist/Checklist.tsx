@@ -19,7 +19,7 @@ import { listChecklists } from "../../graphql/queries";
 import { createChecklist } from "../../graphql/mutations";
 import { GraphQLQuery } from "@aws-amplify/api";
 import { Checklist } from "../../API";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function UserChecklist() {
   const [showModal, setShowModal] = useState(false);
@@ -91,39 +91,42 @@ function UserChecklist() {
   };
 
   return (
-    <>
-      <Container component="main">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "left",
-          }}
-        >
-          <Typography component="h1" variant="h3">
-            Checklist
-            <Button onClick={create}>Create</Button>
+    <Container component="main">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+        }}
+      >
+        <Typography component="h1" variant="h3">
+          Checklist
+          <Button onClick={create}>Create</Button>
+        </Typography>
+        <Divider className="divider" />
+        {userChecklist.map((item: Checklist) => (
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={`${item.id}-content`}
+              id={item.id}
+            >
+              <Typography>{item.name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>Description: {item.description}</Typography>
+              <Typography>Hours Completed: {item.hours}</Typography>
+              <Typography>Course Number: {item.courseNumber}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+        {!loggedIn ? (
+          <Typography>
+            Please <Link to="/login">Sign In</Link> to see your Users Checklist
           </Typography>
-          <Divider className="divider" />
-          {userChecklist.map((item: Checklist) => (
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls={`${item.id}-content`}
-                id={item.id}
-              >
-                <Typography>{item.name}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>Description: {item.description}</Typography>
-                <Typography>Hours Completed: {item.hours}</Typography>
-                <Typography>Course Number: {item.courseNumber}</Typography>
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Box>
+        ) : null}
         {showModal && loggedIn ? (
           <Box
             component="form"
@@ -165,8 +168,8 @@ function UserChecklist() {
             </Stack>
           </Box>
         ) : null}
-      </Container>
-    </>
+      </Box>
+    </Container>
   );
 }
 
