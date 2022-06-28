@@ -225,7 +225,8 @@ export const schema = {
                                 "operations": [
                                     "create",
                                     "update",
-                                    "delete"
+                                    "delete",
+                                    "read"
                                 ],
                                 "identityClaim": "cognito:username"
                             },

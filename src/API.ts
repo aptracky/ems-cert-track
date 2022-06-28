@@ -786,6 +786,10 @@ export type OnDeleteUserSubscription = {
   } | null,
 };
 
+export type OnCreateChecklistSubscriptionVariables = {
+  userID?: string | null,
+};
+
 export type OnCreateChecklistSubscription = {
   onCreateChecklist?:  {
     __typename: "Checklist",
@@ -807,6 +811,10 @@ export type OnCreateChecklistSubscription = {
   } | null,
 };
 
+export type OnUpdateChecklistSubscriptionVariables = {
+  userID?: string | null,
+};
+
 export type OnUpdateChecklistSubscription = {
   onUpdateChecklist?:  {
     __typename: "Checklist",
@@ -826,6 +834,10 @@ export type OnUpdateChecklistSubscription = {
     _deleted?: boolean | null,
     _lastChangedAt: number,
   } | null,
+};
+
+export type OnDeleteChecklistSubscriptionVariables = {
+  userID?: string | null,
 };
 
 export type OnDeleteChecklistSubscription = {

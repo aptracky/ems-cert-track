@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, { useEffect, useState } from "react";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { listChecklists } from "../../graphql/queries";
-import { createChecklist } from "../../graphql/mutations";
+import { createChecklist, deleteChecklist } from "../../graphql/mutations";
 import { GraphQLQuery } from "@aws-amplify/api";
 import { Checklist } from "../../API";
 import { useNavigate, Link } from "react-router-dom";
@@ -69,6 +69,22 @@ function UserChecklist() {
     }
   }
 
+  async function deleteTask({ id, _version }: Checklist) {
+    try {
+      const newChecklist = userChecklist.filter(
+        (item: Checklist) => item.id !== id
+      );
+      setUserChecklist(newChecklist);
+      await API.graphql(
+        graphqlOperation(deleteChecklist, {
+          input: { id: id, _version: _version },
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -107,7 +123,7 @@ function UserChecklist() {
         </Typography>
         <Divider className="divider" />
         {userChecklist.map((item: Checklist) => (
-          <Accordion>
+          <Accordion key={item.id}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls={`${item.id}-content`}
@@ -119,6 +135,13 @@ function UserChecklist() {
               <Typography>Description: {item.description}</Typography>
               <Typography>Hours Completed: {item.hours}</Typography>
               <Typography>Course Number: {item.courseNumber}</Typography>
+              <Button
+                onClick={() => {
+                  deleteTask(item);
+                }}
+              >
+                Delete
+              </Button>
             </AccordionDetails>
           </Accordion>
         ))}

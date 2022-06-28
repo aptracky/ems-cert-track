@@ -120,8 +120,8 @@ export const onDeleteUser = /* GraphQL */ `
   }
 `;
 export const onCreateChecklist = /* GraphQL */ `
-  subscription OnCreateChecklist {
-    onCreateChecklist {
+  subscription OnCreateChecklist($userID: String) {
+    onCreateChecklist(userID: $userID) {
       id
       userID
       name
@@ -141,8 +141,8 @@ export const onCreateChecklist = /* GraphQL */ `
   }
 `;
 export const onUpdateChecklist = /* GraphQL */ `
-  subscription OnUpdateChecklist {
-    onUpdateChecklist {
+  subscription OnUpdateChecklist($userID: String) {
+    onUpdateChecklist(userID: $userID) {
       id
       userID
       name
@@ -162,8 +162,8 @@ export const onUpdateChecklist = /* GraphQL */ `
   }
 `;
 export const onDeleteChecklist = /* GraphQL */ `
-  subscription OnDeleteChecklist {
-    onDeleteChecklist {
+  subscription OnDeleteChecklist($userID: String) {
+    onDeleteChecklist(userID: $userID) {
       id
       userID
       name

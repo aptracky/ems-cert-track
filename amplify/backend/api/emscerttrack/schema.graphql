@@ -15,7 +15,7 @@ type Checklist
     rules: [
       {
         allow: owner
-        operations: [create, update, delete]
+        operations: [create, update, delete, read]
         ownerField: "userID"
       }
       { allow: public }
